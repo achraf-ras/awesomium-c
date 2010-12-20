@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awesomniumc", "awesomniumc\awesomniumc.vcproj", "{708FCFE7-5F54-4D40-95BC-AC25F2576C28}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "awesomniumc-tests", "awesomniumc-tests\awesomniumc-tests.vcproj", "{0A6119A8-9E0B-4241-B109-218196BAFCD4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{708FCFE7-5F54-4D40-95BC-AC25F2576C28} = {708FCFE7-5F54-4D40-95BC-AC25F2576C28}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{708FCFE7-5F54-4D40-95BC-AC25F2576C28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{708FCFE7-5F54-4D40-95BC-AC25F2576C28}.Debug|Win32.Build.0 = Debug|Win32
+		{708FCFE7-5F54-4D40-95BC-AC25F2576C28}.Release|Win32.ActiveCfg = Release|Win32
+		{708FCFE7-5F54-4D40-95BC-AC25F2576C28}.Release|Win32.Build.0 = Release|Win32
+		{0A6119A8-9E0B-4241-B109-218196BAFCD4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A6119A8-9E0B-4241-B109-218196BAFCD4}.Debug|Win32.Build.0 = Debug|Win32
+		{0A6119A8-9E0B-4241-B109-218196BAFCD4}.Release|Win32.ActiveCfg = Release|Win32
+		{0A6119A8-9E0B-4241-B109-218196BAFCD4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
