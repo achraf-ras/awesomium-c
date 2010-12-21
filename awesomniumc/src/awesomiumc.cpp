@@ -158,6 +158,34 @@ EXPORT WebCoreC awe_WebCore_newWithPlugins(const wchar_t* pluginPath) {
 	return webCore;
 }
 
+EXPORT WebCoreC awe_WebCore_newFromConfig( int enablePlugins, 
+										   int enableJavascript, 
+										   const wchar_t* userDataPath, 
+										   const wchar_t* pluginPath, 
+										   const wchar_t* logPath, 
+										   int logLevel, 
+										   const char* userAgentOverride, 
+										   const char* proxyServer, 
+										   const char* proxyConfig, 
+										   int saveCacheAndCookies, 
+										   int maxCacheSize, 
+										   int disableSameOriginPolicy, 
+										   const char* customCss) {
+	WebCoreConfig config;
+	config.setEnablePlugins(enablePlugins?true:false);
+	config.setEnableJavascript(enableJavascript?true:false);
+	config.setUserDataPath(std::wstring(userDataPath));
+	config.setPluginPath(std::wstring(pluginPath));
+	config.setLogPath(std::wstring(logPath));
+	config.setUserAgentOverride(std::string(userAgentOverride));
+	config.setProxyServer(std::string(proxyServer));
+	config.setSaveCacheAndCookies(saveCacheAndCookies?true:false);
+	config.setMaxCacheSize(maxCacheSize);
+	config.setDisableSameOriginPolicy(disableSameOriginPolicy?true:false);
+	config.setCustomCSS(std::string(customCss));
+	return new WebCore(config);
+}
+
 EXPORT void awe_WebCore_delete(WebCoreC webCore) {
 	WebCore* ptr = static_cast<WebCore*> (webCore);
 	delete ptr;

@@ -77,6 +77,9 @@
 #define AWE_UFM_NONE 0
 #define AWE_UFM_BLACKLIST 1
 #define AWE_UFM_WHITELIST 2
+#define AWE_LOG_NONE 0
+#define AWE_LOG_NORMAL 1
+#define AWE_LOG_VERBOSE 2
 
 type RectC
 	x as integer
@@ -117,6 +120,7 @@ end type
 extern "C"
 declare function awe_WebCore_new cdecl alias "awe_WebCore_new" () as any ptr
 declare function awe_WebCore_newWithPlugins cdecl alias "awe_WebCore_newWithPlugins" (byval pluginPath as wstring ptr) as any ptr
+declare function awe_WebCore_newFromConfig cdecl alias "awe_WebCore_newFromConfig" (byval enablePlugins as integer, byval enableJavascript as integer, byval userDataPath as wstring ptr, byval pluginPath as wstring ptr, byval logPath as wstring ptr, byval logLevel as integer, byval userAgentOverride as zstring ptr, byval proxyServer as zstring ptr, byval proxyConfig as zstring ptr, byval saveCacheAndCookies as integer, byval maxCacheSize as integer, byval disableSameOriginPolicy as integer, byval customCss as zstring ptr) as any ptr
 declare sub awe_WebCore_delete cdecl alias "awe_WebCore_delete" (byval webCore as any ptr)
 declare sub awe_WebCore_setBaseDirectory cdecl alias "awe_WebCore_setBaseDirectory" (byval webCore as any ptr, byval baseDirectory as zstring ptr)
 declare sub awe_WebCore_setBaseDirectoryW cdecl alias "awe_WebCore_setBaseDirectoryW" (byval webCore as any ptr, byval baseDirectory as wstring ptr)

@@ -591,6 +591,10 @@
 
 #define AWE_AK_UNKNOWN 0;
 
+#define AWE_LOG_NONE 0
+#define AWE_LOG_NORMAL 1
+#define AWE_LOG_VERBOSE 2
+
 #define WebCoreC void*
 #define WebViewC void*
 #define ResourceInterceptorC void*
@@ -635,10 +639,10 @@ typedef struct {
 	int 		isSystemKey;
 } WebKeyboardEventC;
 
-extern "C" {
-
+extern "C" {	
 	extern EXPORT WebCoreC        awe_WebCore_new();
 	extern EXPORT WebCoreC        awe_WebCore_newWithPlugins(const wchar_t* pluginPath);
+	extern EXPORT WebCoreC        awe_WebCore_newFromConfig(int enablePlugins, int enableJavascript, const wchar_t* userDataPath, const wchar_t* pluginPath, const wchar_t* logPath, int logLevel, const char* userAgentOverride, const char* proxyServer, const char* proxyConfig, int saveCacheAndCookies, int maxCacheSize, int disableSameOriginPolicy, const char* customCss);
 	extern EXPORT void	          awe_WebCore_delete(WebCoreC webCore);	
 	extern EXPORT void            awe_WebCore_setBaseDirectory(WebCoreC webCore, const char* baseDirectory);
 	extern EXPORT void            awe_WebCore_setBaseDirectoryW(WebCoreC webCore, const wchar_t* baseDirectory);
