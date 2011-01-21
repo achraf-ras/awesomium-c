@@ -63,7 +63,7 @@ public:
 	void onCallback(Awesomium::WebView* caller, 
 					const std::wstring& objectName, 
 					const std::wstring& callbackName, 
-					const Awesomium::JSArguments& args) {
+					const Awesomium::JSArguments& args) {		
 		if(funcs->onCallback)
 			funcs->onCallback(caller, objectName.c_str(), callbackName.c_str(), &args);
 	}
@@ -875,8 +875,8 @@ EXPORT int awe_JSArguments_size(JSArgumentsC args) {
 }
 
 EXPORT JSValueC awe_JSArguments_get(JSArgumentsC args, int index) {
-	JSArguments* ptr = static_cast<JSArguments*>(args);
-	return new JSValue(ptr[index]);
+	JSArguments &ptr = *static_cast<JSArguments*>(args);	
+	return &ptr[index];
 }
 
 EXPORT void awe_JSArguments_add(JSArgumentsC args, JSValueC val) {
