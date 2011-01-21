@@ -19,6 +19,8 @@
 #include <windows.h>
 #include <stdio.h>
 
+static int run = -1;
+
 void onBeginNavigation (WebViewC webView, const char* url, const wchar_t* frameName) {
 	printf("begin navigation\n");
 }
@@ -33,6 +35,13 @@ void onFinishLoading (WebViewC webView) {
 
 void onCallback (WebViewC webView, const wchar_t* objectName, const wchar_t* callbackName, const JSArgumentsC args) {
 	printf("callback\n");
+	JSValueC val = awe_JSArguments_get((void*)args, 0);
+	int intval = awe_JSValue_toInteger((void*)val);
+	printf("%d %d\n", intval, awe_JSValue_isInteger((void*)val));
+	val = awe_JSArguments_get((void*)args, 1);
+	intval = awe_JSValue_toInteger((void*)val);
+	printf("%d\n", intval);
+	run = 0;
 }
 
 void onReceiveTitle (WebViewC webView, const wchar_t* title, const wchar_t* frameName) {
@@ -89,24 +98,28 @@ int main() {
 	memset(&listener, 0, sizeof(WebViewListenerC));
 	listener.onBeginLoading = onBeginLoading;
 	listener.onDOMReady = onDOMReady;
+	listener.onCallback = onCallback;
 
+	awe_WebView_createObject(webView, L"derp");
+	awe_WebView_setObjectCallback(webView, L"derp", L"mycallback");
 	awe_WebView_setListener(webView, &listener);
-	awe_WebView_loadURL(webView, "http://www.google.at", L"", "", "");
+	awe_WebView_loadFile(webView, "data/web/html/debug.html", L"");
 
 	printf("loading page...");
-	while(awe_WebView_isLoadingPage(webView)) {
-		Sleep(50);
+	while(run) {	
 		awe_WebCore_update(webCore);
+		
+		if(awe_WebView_isDirty(webView)) {
+			RenderBufferC renderBuffer = awe_WebView_render(webView);
+			if(renderBuffer != 0) {
+				awe_RenderBuffer_saveToJPEG(renderBuffer, L"./result.jpg", -1);								
+			}
+		}
 	}
 	printf("done\n");
 
-	RenderBufferC renderBuffer = awe_WebView_render(webView);
-	if(renderBuffer != 0) {
-		awe_RenderBuffer_saveToPNG(renderBuffer, L"./result.png", -1);
-		system("start result.png");
-	}
-
 	awe_WebView_destroy(webView);
 	awe_WebCore_delete(webCore);	
+	getc(stdin);
 	return 0;
 }

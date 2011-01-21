@@ -1,0 +1,44 @@
+/*
+	Base CSS
+	Author: JP
+	Version: 1.0
+	Date: 20110111
+*/
+body{
+	color:#fff;
+	/* text-shadow: #fff 2px 2px 10px; */
+	font: 11px arial, tahoma, sans-serif;
+}
+a { color: #a2e4f7; }
+a:hover{ color: #fff; }
+.box_outer{
+	background-image:url(../images/background_bright.png);
+	padding:2px;
+}
+.box_inner{
+	background-image:url(../images/background_dark.png);
+	padding:3px;
+}
+.box_inner_margin{
+	background-image:url(../images/background_dark.png);
+	padding:3px;
+	margin-bottom:2px;
+}
+.title{
+	font-weight:bold;
+	font-size:110%;
+}
+.title_large{
+	font-size:120%;
+	font-weight:bold;
+}
+.title_margin{
+	font-size:110%;
+	font-weight:bold;
+	margin-bottom:2px;
+}
+.title_large_margin{
+	font-size:120%;
+	font-weight:bold;
+	margin-bottom:2px;
+}

@@ -1,0 +1,95 @@
+<!--
+	Debug dumper
+	Author: JP
+	Version: 1.3
+	Date: 20110112
+-->
+<html>
+	<head>
+		<link href="../css/base.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="box_outer">
+			<div class="title_large">Debug:</div>
+			<div class="box_inner_margin">
+				<div style="width:150px;float:left;">FPS:</div><span id="fps">?</span><br/>
+				<div style="width:150px;float:left;">Average FPS:</div><span id="avgfps">?</span><br/>
+				<div style="width:150px;float:left;">Min. FPS:</div><span id="minfps">?</span><br/>
+				<div style="width:150px;float:left;">Max. FPS:</div><span id="maxfps">?</span><br/>
+				<div style="width:150px;float:left;">Ticks:</div><span id="ticks">?</span><br/>
+			</div>
+			<div class="box_inner_margin">
+				<div style="width:150px;float:left;">Visible clusters:</div><span id="clusters">?</span><br/>
+				<div style="width:150px;float:left;">Objects in region:</div><span id="region">?</span><br/>
+				<div style="width:150px;float:left;">Nearby objects:</div><span id="near">?</span><br/>
+				<div style="width:150px;float:left;">Rendered objects:</div><span id="render">?</span><br/>
+				<div style="width:150px;float:left;">Special effects:</div><span id="fx">?</span><br/>
+				<div style="width:150px;float:left;">Polygons:</div><span id="polys">?</span><br/>
+			</div>
+			<div class="title_large">Version:</div>
+			<div class="box_inner_margin">
+				Gods and Idols <span id="version">?</span><br/>
+			</div>
+			<div class="title_large">Settings:</div>
+			<div class="box_inner_margin">
+				<div style="width:150px;float:left;">Resolution:</div><span id="screenwidth">?</span>x<span id="screenheight">?</span><br/>
+				<div style="width:150px;float:left;">Fullscreen:</div><span id="fullscreen">?</span><br/>
+				<div style="width:150px;float:left;">VSynch:</div><a href="#" onClick="settings.setGraphicsVSynch(0);"><span id="vsynch">?</span></a><br/>
+				<div style="width:150px;float:left;">Anti-alias:</div><span id="aa">?</span><br/>
+			</div>
+			<div class="box_inner_margin">
+				<div style="width:150px;float:left;">Shaders:</div><span id="shaders">?</span><br/>
+				<div style="width:150px;float:left;">Gas density:</div><span id="gasd">?</span><br/>
+				<div style="width:150px;float:left;">Gas amount:</div><span id="gasa">?</span><br/>
+				<div style="width:150px;float:left;">Gas bright threshold:</div><span id="gasb">?</span><br/>
+			</div>
+			<div class="box_inner_margin">
+				<div style="width:150px;float:left;">Mouse laziness:</div><span id="mouselazy">?</span><br/>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var avgFPS	=	0;
+			var ticks	=	0;
+			var minFPS	=	2000000;
+			var maxFPS	=	-2000000;
+			function update(){
+				ticks++;
+				if(ticks>500){
+					avgFPS=avgFPS+engine.getFPS;
+					if(engine.getFPS>maxFPS){maxFPS=engine.getFPS;}
+					if(engine.getFPS<minFPS){minFPS=engine.getFPS;}
+					document.getElementById("avgfps").innerHTML = Math.round(avgFPS/(ticks-500));
+					document.getElementById("minfps").innerHTML = minFPS;
+					document.getElementById("maxfps").innerHTML = maxFPS;
+				}
+				document.getElementById("fps").innerHTML = engine.getFPS;
+				document.getElementById("ticks").innerHTML = ticks;
+				
+				document.getElementById("clusters").innerHTML = engine.getNumOfVisibleClusters;
+				document.getElementById("region").innerHTML = engine.getNumOfRegionObjects;
+				document.getElementById("near").innerHTML = engine.getNumOfNearObjects;
+				document.getElementById("render").innerHTML = engine.getNumOfRenderedObjects;
+				document.getElementById("polys").innerHTML = engine.getNumOfPolygons;
+				document.getElementById("fx").innerHTML = engine.getNumOfEffects;
+				
+				document.getElementById("version").innerHTML = engine.getVersion;
+				
+				document.getElementById("screenwidth").innerHTML = settings.getGraphicsWidth;
+				document.getElementById("screenheight").innerHTML = settings.getGraphicsHeight;
+				document.getElementById("fullscreen").innerHTML = (settings.getGraphicsFullscreen==0)?"FALSE":"TRUE";
+				document.getElementById("vsynch").innerHTML = (settings.getGraphicsVSynch==0)?"FALSE":"TRUE";
+				document.getElementById("aa").innerHTML = settings.getGraphicsAA+"x";
+				
+				document.getElementById("shaders").innerHTML = (settings.getPerformanceShaders==0)?"FALSE":"TRUE";
+				document.getElementById("gasd").innerHTML = Math.round(settings.getGasDensity*100) +"%";
+				document.getElementById("gasa").innerHTML = Math.round(settings.getGasAmount/8*100) +"%";
+				document.getElementById("gasb").innerHTML = settings.getGasBrightThreshold;
+				
+				document.getElementById("mouselazy").innerHTML = settings.getMouseLazy;
+			}
+			setInterval("update()", 16);
+			derp.mycallback(123123, 77778);
+		</script>
+	</body>
+</html>
