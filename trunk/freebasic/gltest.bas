@@ -15,12 +15,73 @@ Using fb '' constants and structures are stored in the FB namespace in lang fb
 dim shared webCore as any ptr
 dim shared webView as any ptr
 dim shared texture as GLuint
+dim shared callbacks as WebViewListenerC
 
 ''
 '' for logging...
 ''
 sub info(text as string)
 	print #1, text
+end sub
+
+sub onBeginNavigation cdecl(byval webView as any ptr, byval url as zstring ptr, byval frameName as wstring ptr)
+	info "begin navigation"
+end sub
+
+sub	onBeginLoading cdecl(byval webView as any ptr, byval url as zstring ptr, byval frameName as wstring ptr, byval statusCode as integer, byval mimeType as wstring ptr)
+	info "begin loading"
+end sub
+
+sub onFinishLoading cdecl(byval webView as any ptr)
+	info "finish loading"
+end sub
+
+sub onCallback cdecl(byval webView as any ptr, byval objectName as wstring ptr, byval callbackName as wstring ptr, byval args as any ptr)
+	info "callback"
+end sub
+
+sub	onReceiveTitle cdecl(byval webView as any ptr, byval title as wstring ptr, byval frameName as wstring ptr)
+	info "receive title"
+end sub
+
+sub	onChangeCursor cdecl(byval webView as any ptr, byval toolTip as wstring ptr)
+	info "change cursor"
+end sub
+
+sub onChangeKeyboardFocus cdecl(byval webView as any ptr, byval isFocused as integer)
+	info "change keyboard focus"
+end sub
+
+sub	onChangeTargetURL cdecl(byval webView as any ptr, byval url as zstring ptr)
+	info "change target url"
+end sub
+
+sub onOpenExternalLink cdecl(byval webView as any ptr, byval url as zstring ptr, byval source as wstring ptr)
+	info "open external link"
+end sub
+
+sub	onRequestDownload cdecl(byval webView as any ptr, byval url as zstring ptr)
+	info "request download"
+end sub
+
+sub onWebViewCrashed cdecl(byval webView as any ptr)
+	info "webview crashed"
+end sub
+
+sub onPluginCrashed cdecl(byval webView as any ptr, byval pluginName as wstring ptr)
+	info "plugin crashed"
+end sub
+
+sub	onRequestMove cdecl(byval webView as any ptr, byval x as integer, byval y as integer)
+	info "request move"
+end sub
+
+sub	onGetPageContents cdecl(byval webView as any ptr, byval url as zstring ptr, byval contents as wstring ptr)
+	info "get page contents"
+end sub
+
+sub onDomReady cdecl(byval webView as any ptr) 
+   info "dom ready"
 end sub
 
 ''
@@ -49,9 +110,11 @@ sub init(url as string)
 	
 	'' prepare for console output
 	open cons for output as #1
-	
+		
 	'' initialize OpenGL 
+	info("initializing ogl")
 	initGL()
+	info("done")
 
 	''  create the awesomium datastructures
 	info "creating awesomium datastructures"
@@ -59,6 +122,23 @@ sub init(url as string)
 	webView = awe_WebCore_createWebView(webCore, SCREEN_WIDTH, SCREEN_HEIGHT)
 	awe_WebView_loadURL(webView, strptr(url), "", "", "")
 	awe_WebView_focus(webView)	
+	
+	'' set callbacks
+	callbacks.onBeginNavigation = @onBeginNavigation
+	callbacks.onBeginLoading = @onBeginLoading
+	callbacks.onFinishLoading = @onFinishLoading
+	callbacks.onCallback = @onCallback
+	callbacks.onReceiveTitle = @onReceiveTitle
+	callbacks.onChangeCursor = @onChangeCursor
+	callbacks.onChangeKeyboardFocus = @onChangeKeyboardFocus
+	callbacks.onChangeTargetURL = @onChangeTargetURL
+	callbacks.onOpenExternalLink = @onOpenExternalLink
+	callbacks.onRequestDownload = @onRequestDownload
+	callbacks.onWebViewCrashed = @onWebViewCrashed
+	callbacks.onPluginCrashed = @onPluginCrashed
+	callbacks.onGetPageContents = @onGetPageContents	
+	callbacks.onDOMReady = @onDomReady	
+	awe_WebView_setListener(webView, @callbacks)
 	
 	info "plugins enabled: " + str(awe_WebCore_arePluginsEnabled(webCore))
 	
