@@ -94,6 +94,7 @@ type WebViewListenerC
 	onFinishLoading as sub cdecl(byval webView as any ptr) = 0
 	onCallback as sub cdecl(byval webView as any ptr, byval objectName as wstring ptr, byval callbackName as wstring ptr, byval args as any ptr) = 0
 	onReceiveTitle as sub cdecl(byval webView as any ptr, byval title as wstring ptr, byval frameName as wstring ptr) = 0
+	onChangeToolTIp as sub cdecl(byval webView as any ptr, byval title as tstring ptr);
 	onChangeCursor as sub cdecl(byval webView as any ptr, byval toolTip as wstring ptr) = 0
 	onChangeKeyboardFocus as sub cdecl(byval webView as any ptr, byval isFocused as integer) = 0
 	onChangeTargetURL as sub cdecl(byval webView as any ptr, byval url as zstring ptr) = 0
